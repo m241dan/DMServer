@@ -1,2 +1,0 @@
-Dec 21 19:14:15: Could not connect to database: Access denied for user 'laptop'@'192.168.0.4' (using password: YES)
-Dec 21 19:14:48: Could not connect to database: Access denied for user 'laptop'@'192.168.0.4' to database 'core_wiki'
