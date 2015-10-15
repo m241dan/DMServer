@@ -5,7 +5,9 @@ DBuffer = require( "dbuffer" )
 MudServerEvents = require( "events/server" )
 -- handle the awkard mysql3 module
 
-mudsouls = {}
+global_events = {}
+mud_souls = {}
+
 
 function main()
    print( "DavEngine starting..." )
@@ -14,13 +16,13 @@ function main()
    mudserver = assert( Server:new( 6500 ), "could not bind mud server" )
    -- "start" simply means it will accept new connections when :accept() is called
    mudserver:start()
+
    -- setup our event for accepting new connections
-   mudserver.acceptEvent = EventQueue.event:new( MudServerEvents.acceptNewConnections )
-   mudserver.acceptEvent:setArgs( mudserver )
-   mudserver.acceptEvent.execute_at = EventQueue.time() + ( EventQueue.second * 5 )
-   mudserver.acceptEvent.name = "Accepting new connections event."
+   mudserver.acceptEvent = EventQueue.event:new( MudServerEvents.acceptNewConnections, EventQueue.second, { mudserver }, "Accepting new connections event." )
    EventQueue.insert( mudserver.acceptEvent )
 
+   -- setup the polling for new input, processing new input, pushing new input
+   local poll_process_push = EventQueue.event:new( MudServerEvents.pollProcessPush, EventQueue.default_tick(), nil, "
    print( "Running the Event Queue!" )
    EventQueue.run()
    print( "DavEngine finished." )
