@@ -20,13 +20,34 @@ end
 
 function S:addEntity( entity )
    self.entity[#self.entity+1] = entity
-   return #self.entity
+   return true
+end
+
+function S:getIndex( entity )
+   for i, e in ipairs( self.entity ) do
+      if( e == entity )
+         return i
+      end
+   end
+   return nil
 end
 
 function S:remEntity( entity )
+   for i, e in ipairs( self.entity ) do
+      if( entity == e ) then
+         table.remove( self.entity, i )
+         return true
+      else
+   end
+   return false
 end
 
 function S:remEntityByIndex( index )
+   if( not self.entity[index] ) then
+      return false
+   end
+   table.remove( self.entity, index )
+   return true
 end
 
 function S:setIndex( index )
