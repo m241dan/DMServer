@@ -1,0 +1,12 @@
+[submodule "modules/davevent"]
+	path = modules/davevent
+	url = https://github.com/m241dan/davevent.git
+[submodule "modules/davbuffer"]
+	path = modules/davbuffer
+	url = https://github.com/m241dan/davbuffer.git
+[submodule "modules/davserver"]
+	path = modules/davserver
+	url = https://github.com/m241dan/davserver.git
+[submodule "modules/luasql"]
+	path = modules/luasql
+	url = https://github.com/keplerproject/luasql.git
