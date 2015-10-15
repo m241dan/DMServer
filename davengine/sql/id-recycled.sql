@@ -1,0 +1,8 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP TABLE IF EXISTS `id-recycled`;
+CREATE TABLE IF NOT EXISTS `id-recycled` (
+   `type` smallint NOT NULL DEFAULT '-1',
+   `rec_id` int NOT NULL DEFAULT '-1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

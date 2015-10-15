@@ -1,0 +1,33 @@
+#IDTAG
+ID           1
+Type         1
+CreatedOn    Fri Oct 24 16:13:27 2014~
+CreatedBy    Davenge~
+ModifiedOn   Fri Oct 24 16:13:27 2014~
+ModifiedBy   Davenge~
+END
+
+#WORKSPACE
+Name         sep_rooms~
+Descr        blank description~
+Public       0
+Instance     16
+Instance     15
+Instance     14
+Instance     13
+Instance     12
+Instance     11
+Instance     10
+Instance     9
+Instance     8
+Instance     7
+Instance     6
+Instance     5
+Framework    8
+Framework    5
+Framework    4
+Framework    3
+Framework    2
+#END
+
+EOF

@@ -1,0 +1,38 @@
+#IDTAG
+ID           3
+Type         2
+CreatedOn    Fri Oct 24 16:07:06 2014~
+CreatedBy    Davenge~
+ModifiedOn   Fri Oct 24 16:07:06 2014~
+ModifiedBy   Davenge~
+END
+
+#FRAMEWORK
+Name         echo room~
+Short_Descr  The Echo Room~
+Long_Descr   a new frame is here~
+Description  If you look at the script for this room, you will see some pretty primitive echo usages.~
+Spec       17 1
+Spec       0 1
+Inherits     -1
+Script
+function onEntityEnter( room, entity )
+   room:echo( "\nThis is the room echoing\n" )
+   entity:echoAt( string.format( "\n%s's script is echoing at you.\n\n", room:getShort() ) )
+end
+
+function onEntityLeave( room, entity )
+end
+
+function onEntityEntering( room, entity )
+end
+
+function onEntityLeaving( room, entity )
+end
+
+function onGreetEntity( greeter, entity )
+end
+
+function onFarewellEntity( farewell, entity )
+end
+

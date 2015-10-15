@@ -1,0 +1,44 @@
+#IDTAG
+ID           8
+Type         2
+CreatedOn    Fri Oct 24 16:19:17 2014~
+CreatedBy    Davenge~
+ModifiedOn   Fri Oct 24 17:21:11 2014~
+ModifiedBy   Davenge~
+END
+
+#FRAMEWORK
+Name         nopass room~
+Short_Descr  The NoPass Room~
+Long_Descr   a new frame is here~
+Description  You will be removed from this room unless you have the key from the previous room in your inventory.~
+Spec       17 1
+Spec       0 1
+Inherits     -1
+Script
+function onEntityEnter( room, entity )
+   if( entity:hasItemInInventoryFramework( 11 ) == false ) then
+      entity:echoAt( "\n\n BE GONE YOU VILE THING YOU!? \n\n" )
+      entity:interp( "s" )
+      return
+   end
+   entity:echoAt( "\n\nThe key leaves your inventory and returns to the original room.\n\n" )
+   local item = entity:getItemFromInventory( "key" ) -- this is an imprecision method, it will take any item with the name key, it also takes ID numbers but needs to take frameworks too
+   item:to( EntityInstance:getInstance( 11 ) )
+end
+
+function onEntityLeave( room, entity )
+end
+
+function onEntityEntering( room, entity )
+end
+
+function onEntityLeaving( room, entity )
+end
+
+function onGreetEntity( greeter, entity )
+end
+
+function onFarewellEntity( farewell, entity )
+end
+

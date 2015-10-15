@@ -1,0 +1,35 @@
+#IDTAG
+ID           6
+Type         2
+CreatedOn    Fri Oct 24 16:14:16 2014~
+CreatedBy    Davenge~
+ModifiedOn   Fri Oct 24 16:14:45 2014~
+ModifiedBy   Davenge~
+END
+
+#FRAMEWORK
+Name         first item generation~
+Short_Descr  first item generation~
+Long_Descr   This is an item that was generated when you walked into the room.~
+Description  none~
+Spec       3 1
+Inherits     -1
+Script
+function onEntityEnter( room, entity )
+end
+
+function onEntityLeave( room, entity )
+end
+
+function onEntityEntering( room, entity )
+end
+
+function onEntityLeaving( room, entity )
+end
+
+function onGreetEntity( greeter, entity )
+end
+
+function onFarewellEntity( farewell, entity )
+end
+

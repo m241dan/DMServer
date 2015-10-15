@@ -1,0 +1,19 @@
+#IDTAG
+ID           0
+Type         2
+CreatedOn    initscript~
+CreatedBy    Davenge~
+ModifiedOn   initscript~
+ModifiedBy   Davenge~
+END
+
+#FRAMEWORK
+Name         North~
+Short_Descr  North~
+Long_Descr   Northern exit is here.~
+Description  An exit to the north.~
+Spec       23 1
+Spec       1 0
+Inherits     -1
+#END
+

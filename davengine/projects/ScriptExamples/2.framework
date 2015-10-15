@@ -1,0 +1,18 @@
+#IDTAG
+ID           2
+Type         2
+CreatedOn    Fri Oct 24 16:06:09 2014~
+CreatedBy    Davenge~
+ModifiedOn   Fri Oct 24 16:06:09 2014~
+ModifiedBy   Davenge~
+END
+
+#FRAMEWORK
+Name         starter room~
+Short_Descr  The Starter Room~
+Long_Descr   a new frame is here~
+Description  This room is the first room in a long line of scripting examples. Head north to begin.~
+Spec       0 1
+Inherits     -1
+#END
+

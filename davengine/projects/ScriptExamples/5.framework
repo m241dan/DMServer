@@ -1,0 +1,42 @@
+#IDTAG
+ID           5
+Type         2
+CreatedOn    Fri Oct 24 16:12:57 2014~
+CreatedBy    Davenge~
+ModifiedOn   Fri Oct 24 16:12:57 2014~
+ModifiedBy   Davenge~
+END
+
+#FRAMEWORK
+Name         foyer nopass~
+Short_Descr  Foyer to the NoPass Room~
+Long_Descr   a new frame is here~
+Description  There is a room to the north, unless you pick up the item that was generated when you walked into this room, you will not be able to proceed into the next room. It will "force" you back.~
+Spec       17 1
+Spec       0 1
+Inherits     -1
+Script
+function onEntityEnter( room, entity )
+   if( room:hasItemInInventoryFramework( 11 ) == false ) then  --check the rooms inventory
+      local frame = EntityFramework:getFramework( 11 )
+      local item = EntityInstance:new( frame )
+      item:to( room )
+      room:echo( "\nI have spawned a new key since someone took the last\n" )
+   end   
+end
+
+function onEntityLeave( room, entity )
+end
+
+function onEntityEntering( room, entity )
+end
+
+function onEntityLeaving( room, entity )
+end
+
+function onGreetEntity( greeter, entity )
+end
+
+function onFarewellEntity( farewell, entity )
+end
+

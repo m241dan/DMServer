@@ -1,0 +1,18 @@
+#IDTAG
+ID           2
+Type         1
+CreatedOn    Fri Oct 24 16:16:34 2014~
+CreatedBy    Davenge~
+ModifiedOn   Fri Oct 24 16:16:34 2014~
+ModifiedBy   Davenge~
+END
+
+#WORKSPACE
+Name         sep_items~
+Descr        blank description~
+Public       0
+Framework    7
+Framework    6
+#END
+
+EOF

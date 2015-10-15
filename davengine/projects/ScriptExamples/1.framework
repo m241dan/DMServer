@@ -1,0 +1,19 @@
+#IDTAG
+ID           1
+Type         2
+CreatedOn    initscript~
+CreatedBy    Davenge~
+ModifiedOn   initscript~
+ModifiedBy   Davenge~
+END
+
+#FRAMEWORK
+Name         South~
+Short_Descr  South~
+Long_Descr   Southern exit is here.~
+Description  An exit to the south.~
+Spec       23 0
+Spec       1 0
+Inherits     -1
+#END
+

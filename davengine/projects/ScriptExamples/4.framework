@@ -1,0 +1,40 @@
+#IDTAG
+ID           4
+Type         2
+CreatedOn    Fri Oct 24 16:11:44 2014~
+CreatedBy    Davenge~
+ModifiedOn   Fri Oct 24 16:11:44 2014~
+ModifiedBy   Davenge~
+END
+
+#FRAMEWORK
+Name         item generation room~
+Short_Descr  Item Generation Room~
+Long_Descr   a new frame is here~
+Description  This script shows how to use item generation to your benefit.~
+Spec       17 1
+Spec       0 1
+Inherits     -1
+Script
+function onEntityEnter( room, entity )
+   frame = EntityFramework:getFramework( 10 )
+   item = EntityInstance:new( frame )
+   item:to( room )
+   room:echo( "\nI just generated an item\n - look to see it\n\n" )
+end
+
+function onEntityLeave( room, entity )
+end
+
+function onEntityEntering( room, entity )
+end
+
+function onEntityLeaving( room, entity )
+end
+
+function onGreetEntity( greeter, entity )
+end
+
+function onFarewellEntity( farewell, entity )
+end
+

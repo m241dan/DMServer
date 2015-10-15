@@ -1,0 +1,20 @@
+#IDTAG
+ID           12
+Type         3
+CreatedOn    Fri Oct 24 16:17:28 2014~
+CreatedBy    system~
+ModifiedOn   Fri Oct 24 16:17:28 2014~
+ModifiedBy   system~
+END
+
+#INSTANCE
+Level        0
+Loaded       1
+Content      4
+Content      3
+Content      14
+Framework    4
+ContainedBy  -1
+#END
+
+EOF
