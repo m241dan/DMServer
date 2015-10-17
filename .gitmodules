@@ -10,3 +10,6 @@
 [submodule "modules/luasql"]
 	path = modules/luasql
 	url = https://github.com/keplerproject/luasql.git
+[submodule "modules/luafilesystem"]
+	path = modules/luafilesystem
+	url = https://github.com/m241dan/luafilesystem.git
