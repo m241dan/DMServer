@@ -3,7 +3,10 @@ Server = require( "server" )
 EventQueue = require( "eventqueue" )
 DBuffer = require( "dbuffer" )
 MudServerEvents = require( "events/server" )
-MudSoul = require( "objects/mudsoul" )
+StateManager = require( "objects/statemanager" )
+Account = require( "objects/account" )
+Entity = require( "objects/entity" )
+IDManager = require( "objects/idmanager" )
 
 -- Global Variables
 global_events = {}
