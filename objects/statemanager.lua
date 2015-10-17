@@ -12,9 +12,9 @@ local SM = {}
 -- Written by Daniel R. Koris --
 --------------------------------
 SM.managers_by_client = {}
+SM.managers_by_state = {}
 SM.managers_all = {}
 SM.states = {}
-
 
 ---------------------------------
 -- Local Function validIndex() --
@@ -68,21 +68,40 @@ function SM.state:new( data, interpreter, behaviour )
    self.__index = self
 
    state.data = data or {} -- what data will this state manage? an account? state specific variables? an entity?
+
+   -- Setup this state's behaviour and interpreter. If one was passed, use that be default.
+   -- If one is not passed, well... Look for a behaviour string in the data.
+   -- If a state doesn't have a behaviour, it cannot be, return nil
    if( behaviour ) then
       state.behaviour = behaviour
    else
-      if( not data.behaviour ) then
-         error( "No behaviour passed and the data contains no behaviour...", 1 )
+      if( not Utils:requireCheck( data.behaviour ) ) then
          return nil
       end
-      
+      state.behaviour = require( data.behaviour )     
    end
 
+   if( interpreter ) then
+      state.interpreter = interpreter
+   else
+      if( not Utils:requireCheck( data.interpreter ) ) then
+         return nil
+      end
+      state.interpreter = require( data.interpreter )            
+   end
+
+   -- interpreters need to be initialized with the state and the data
+   state.interpreter( state, state.data )
+
    -- any data set can only have one state managing it
-   if( SM.states[data] ) then
+   if( SM.states[data] )
+   end
    
    SM.states[data] = state
    return state
+end
+
+function SM.state:delete()
 end
 
 --------------------------------
@@ -112,12 +131,16 @@ function SM:new( client )
    return state_manager
 end
 
+function SM:delete()
+end
+
 function SM:addState( state )
    local len = #self.states 
    self.states[len+1] = state
    if( len == 0 ) then
       self.current = 1
    end
+   managers_by_states[state] = self
    return (len+1)     
 end
 
@@ -138,6 +161,9 @@ function SM:remState( state )
    for i, s in ipairs( self.states ) do
       if( s == state )
          table.remove( self.states, i )
+         if( #self.states == 0 ) then
+            self:delete()
+         end
          return true
       end
    end

@@ -1,4 +1,6 @@
  -- Load Global Modules
+LFS = require( "lfs" )
+Utils = require( "utils" )
 Server = require( "server" )
 EventQueue = require( "eventqueue" )
 Event = EventQueue.event
