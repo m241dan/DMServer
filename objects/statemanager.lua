@@ -16,6 +16,12 @@ SM.managers_by_state = {}
 SM.managers_all = {}
 SM.states = {}
 
+-- make these weak tables so they don't hold up garbage collection
+wm = { __mode = "kv" }
+setmetatable( SM.managers_by_client, wm )
+setmetatable( SM.managers_by_state, wm )
+setmetatable( SM.states, wm )
+
 ---------------------------------
 -- Local Function validIndex() --
 -- Written by Daniel R. Koris  --
@@ -94,7 +100,8 @@ function SM.state:new( data, interpreter, behaviour )
    state.interpreter( state, state.data )
 
    -- any data set can only have one state managing it
-   if( SM.states[data] )
+   if( SM.states[data] ) then
+   
    end
    
    SM.states[data] = state
