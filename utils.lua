@@ -12,4 +12,10 @@ function utils.requireCheck( path )
    return true
 end
 
+function table.getn( table )
+   local count = 0
+   for _, _ in pairs( table ) do count = count + 1; end
+   return count
+end
+
 return utils

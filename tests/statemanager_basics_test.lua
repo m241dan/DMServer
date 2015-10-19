@@ -7,8 +7,7 @@ local function itp( state, data )
       ::top::
       input = coroutine.yield()
       if( not input ) then
-         local sm = managers_by_state[state]
-         print( "Managers by state size " .. #managers_by_state )
+         local sm = StateManager.managers_by_state[state]
          sm:remState( state )
       elseif( input == "dttest" ) then
          print( data.dt )
@@ -26,10 +25,7 @@ end
 function main()
    local sm = StateManager:new()
    local state = State:new( { dt = "hi, I'm dt!" }, behaviour, behaviour.getInterp() )
-   sm:addState( sm )
-   print( managers_by_state )
-   print( "Managers by state size " .. #managers_by_state )
-   print( "state added" )
+   sm:addState( state )
    state.interpreter( "Hi" )
    state.interpreter( "Testing!" )
    state.interpreter( "dttest" )
@@ -37,4 +33,5 @@ function main()
 end
 
 main()
+collectgarbage()
 StateManager.dataDump()

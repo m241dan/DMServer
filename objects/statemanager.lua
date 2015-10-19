@@ -16,16 +16,16 @@ local SM = { __gc = SMGarbage }
 -- State Manager Locals       --
 -- Written by Daniel R. Koris --
 --------------------------------
-managers_by_client = {}
-managers_by_state = {}
-managers_all = {}
-states_by_data = {}
+SM.managers_by_client = {}
+SM.managers_by_state = {}
+SM.managers_all = {}
+SM.states_by_data = {}
 
 -- make these weak tables so they don't hold up garbage collection
 wm = { __mode = "kv" }
-setmetatable( managers_by_client, wm )
-setmetatable( managers_by_state, wm )
-setmetatable( states_by_data, wm )
+setmetatable( SM.managers_by_client, wm )
+setmetatable( SM.managers_by_state, wm )
+setmetatable( SM.states_by_data, wm )
 
 ---------------------------------
 -- Local Function validIndex() --
@@ -56,7 +56,7 @@ local function getClient( state_or_data )
    local mt, sm, client
    mt = getmetatable( state_or_data )
    if( mt == SM.state ) then
-      sm = managers_by_state[state_or_data]
+      sm = SM.managers_by_state[state_or_data]
       if( not sm ) then return nil; end
       return sm.client
 --   elseif( mt == Account or mt == Entity ) then -- will write this one later
@@ -113,18 +113,18 @@ function SM.state:new( data, behaviour, interpreter )
    state.interpreter( state, state.data )
 
    -- any data set can only have one state managing it
-   local previous_state = states_by_data[data]
+   local previous_state = SM.states_by_data[data]
    if( previous_state ) then
       previous_state.behaviour.takeOver( previous_state, state, data ) -- takeOver() handles any messaging and data specific operations before takeover occurs
-      managers_by_state[previous_state]:remState( previous_state )
+      SM.managers_by_state[previous_state]:remState( previous_state )
    end
    
-   states_by_data[data] = state
+   SM.states_by_data[data] = state
    return state
 end
 
 function SM.state:putToOutbuf( text )
-   state_manager = managers_by_state[self]
+   state_manager = SM.managers_by_state[self]
    if( not state_manager ) then
       error( "State has no manager, cannout put this text into buffer:\n" .. text, 2 )
       return
@@ -152,8 +152,8 @@ function SM:new( client )
    self.__index = self
 
    -- put it in StateManager's internal list
-   if( client ) then managers_by_client[client] = state_manager; end
-   managers_all[#managers_all+1] = state_manager
+   if( client ) then SM.managers_by_client[client] = state_manager; end
+   SM.managers_all[#SM.managers_all+1] = state_manager
 
    -- setup some basic state manager instance vars
    state_manager.states = {}
@@ -164,9 +164,9 @@ function SM:new( client )
 end
 
 function SM:removeSelf()
-   for i, sm in ipairs( managers_all ) do
+   for i, sm in ipairs( SM.managers_all ) do
       if( sm == self ) then
-         table.remove( managers_all, i )
+         table.remove( SM.managers_all, i )
       end
    end
 end
@@ -177,8 +177,7 @@ function SM:addState( state )
    if( len == 0 ) then
       self.current = 1
    end
-   managers_by_state[state] = self
-   print( managers_by_state )
+   SM.managers_by_state[state] = self
    return (len+1)     
 end
 
@@ -220,10 +219,10 @@ function SM:remStateByIndex( index )
 end
 
 function SM.dataDump()
-   print( "Size of Managers " .. #managers_all )
-   print( "Size of Managers by Client " .. #managers_by_client )
-   print( "Size of Managers by State " .. #managers_by_state )
-   print( "Size of States by Data " .. #states_by_data )
+   print( "Size of Managers " .. table.getn( SM.managers_all ) )
+   print( "Size of Managers by Client " .. table.getn( SM.managers_by_client ) )
+   print( "Size of Managers by State " .. table.getn( SM.managers_by_state ) )
+   print( "Size of States by Data " .. table.getn( SM.states_by_data ) )
 end
 
 return SM
