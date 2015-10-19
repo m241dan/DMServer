@@ -1,11 +1,12 @@
 local utils = {}
 
-function utils.requireCheck( path )
-   if( not path ) then
+function utils.requireCheck( rpath )
+   if( not rpath ) then
       error( "requireCheck failed: nil path", 1 )
       return false
    end
-   if( not LFS.attribute( path ) ) then
+   rpath = rpath .. ".lua"
+   if( not LFS.attributes( rpath ) ) then
       error( "requireCheck failed: path is not a file", 1 )
       return false
    end

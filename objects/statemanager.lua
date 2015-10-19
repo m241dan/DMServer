@@ -97,7 +97,7 @@ function SM.state:new( data, behaviour, interpreter )
    if( behaviour ) then
       state.behaviour = behaviour
    else
-      if( not Utils:requireCheck( data.behaviour ) ) then
+      if( not Utils.requireCheck( data.behaviour ) ) then
          return nil
       end
       state.behaviour = require( data.behaviour )     
@@ -106,7 +106,7 @@ function SM.state:new( data, behaviour, interpreter )
    if( interpreter ) then
       state.interpreter = interpreter
    else
-      state.interpreter = data.behaviour.getInterp()
+      state.interpreter = state.behaviour.getInterp()
    end
 
    -- interpreters need to be initialized with the state and the data
@@ -130,7 +130,7 @@ function SM.state:putToOutbuf( text )
       return
    end
    if( not state_manager.client ) then return; end
-   state_manager.client[#state_manager.client+1] = text
+   state_manager.client.outbuf[#state_manager.client.outbuf+1] = text
 end
 
 function SM.state:directMsg( msg )
@@ -156,6 +156,7 @@ function SM:new( client )
    SM.managers_all[#SM.managers_all+1] = state_manager
 
    -- setup some basic state manager instance vars
+   state_manager.client = client
    state_manager.states = {}
    state_manager.current = 0
    state_manager.previous = 0
