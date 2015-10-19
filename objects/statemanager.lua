@@ -4,8 +4,13 @@
 --------------------------------
 -- The State Manager is at the heart of our data management.
 
+local function SMGarbage( state_manager )
+   if( state_manager.client ) then
+      state_manager.client:close()
+   end
+end
 
-local SM = {}
+local SM = { __gc = SMGarbage }
 
 --------------------------------
 -- State Manager Locals       --
@@ -14,13 +19,13 @@ local SM = {}
 SM.managers_by_client = {}
 SM.managers_by_state = {}
 SM.managers_all = {}
-SM.states = {}
+SM.states_by_data = {}
 
 -- make these weak tables so they don't hold up garbage collection
 wm = { __mode = "kv" }
 setmetatable( SM.managers_by_client, wm )
 setmetatable( SM.managers_by_state, wm )
-setmetatable( SM.states, wm )
+setmetatable( SM.states_by_data, wm )
 
 ---------------------------------
 -- Local Function validIndex() --
@@ -90,25 +95,21 @@ function SM.state:new( data, interpreter, behaviour )
    if( interpreter ) then
       state.interpreter = interpreter
    else
-      if( not Utils:requireCheck( data.interpreter ) ) then
-         return nil
-      end
-      state.interpreter = require( data.interpreter )            
+      state.interpreter = data.behaviour.getInterp()
    end
 
    -- interpreters need to be initialized with the state and the data
    state.interpreter( state, state.data )
 
    -- any data set can only have one state managing it
-   if( SM.states[data] ) then
-   
+   local previous_state = SM.states_by_data[data]
+   if( previous_state ) then
+      previous_state.behaviour.takeOver( previous_state, state, data ) -- takeOver() handles any messaging and data specific operations before takeover occurs
+      SM.managers_by_state[previous_state]:remState( previous_state )
    end
    
    SM.states[data] = state
    return state
-end
-
-function SM.state:delete()
 end
 
 --------------------------------
@@ -136,9 +137,6 @@ function SM:new( client )
    state_manager.previous = 0
 
    return state_manager
-end
-
-function SM:delete()
 end
 
 function SM:addState( state )
@@ -169,7 +167,11 @@ function SM:remState( state )
       if( s == state )
          table.remove( self.states, i )
          if( #self.states == 0 ) then
-            self:delete()
+            for i, sm in ipairs( SM.managers_all ) do
+               if( sm == self ) then
+                  table.remove( SM.managers_all, i )
+               end
+            end
          end
          return true
       end
@@ -183,6 +185,13 @@ function SM:remStateByIndex( index )
    end
    table.remove( self.states, index )
    return true
+end
+
+function SM.dataDump()
+   print( "Size of Managers " .. #SM.managers_all )
+   print( "Size of Managers by Client " .. #SM.managers_by_client )
+   print( "Size of Managers by State " .. #SM.managers_by_state )
+   print( "Size of States by Data " .. #SM.states_by_data )
 end
 
 return SM
