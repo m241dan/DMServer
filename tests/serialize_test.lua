@@ -9,6 +9,8 @@ td.stats= { str = 10, dex = 10, agi = 10 }
 td[1] = "numberic index test"
 td.pho_account_test = { }
 td.account = Account:new()
+td.account.name = "test_account"
+td.account:save()
 
 function td.pho_account_test:serialize()
    return string.format( "%q", "Hi there" )
@@ -16,7 +18,6 @@ end
 
 file = io.open( "tests/.serialized_data.lua", "w+" )
 Utils.save( td, file )
-file:flush()
 file:close()
 
 td = dofile( "tests/.serialized_data.lua" )
