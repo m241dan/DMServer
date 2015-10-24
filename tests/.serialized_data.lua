@@ -1,13 +1,14 @@
 return {
    [1] = "numberic index test",
-   ["name"] = "Hi",
    ["behaviour"] = "this/that/script.lua",
-   ["account"] = Account:load( "new_account" ),
+   ["serialize"] = "table",
+   ["name"] = "Hi",
    ["pho_account_test"] = "Hi there",
-   ["level"] = 12,
+   ["account"] = Account:load( "test_account" ),
    ["stats"] = {
-      ["agi"] = 10,
       ["str"] = 10,
       ["dex"] = 10,
+      ["agi"] = 10,
    },
+   ["level"] = 12,
 }
