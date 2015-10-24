@@ -8,6 +8,8 @@ td.behaviour = "this/that/script.lua"
 td.stats= { str = 10, dex = 10, agi = 10 }
 td[1] = "numberic index test"
 td.pho_account_test = { }
+td.account = Account:new()
+
 function td.pho_account_test:serialize()
    return string.format( "%q", "Hi there" )
 end
