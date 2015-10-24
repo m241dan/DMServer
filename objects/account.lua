@@ -14,11 +14,17 @@ function A:new()
 end
 
 function A:load( account_path )
-   local account = dofile( "accounts/" .. account_path .. ".lua" )"
+   local account = dofile( "accounts/" .. account_path .. ".lua" )
    setmetatable( account, self )
    self.__index = self
 
    return account
+end
+
+function A:save()
+   local file = io.open( string.format( "accounts/%s.lua", self.name ), "w+" )
+   Utils.save( self, file )
+   file:close()
 end
 
 function A:serialize()
