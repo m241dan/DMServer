@@ -25,7 +25,7 @@ local function serialize( data, indent_amount )
    elseif( type( data ) == "number" ) then
       return tostring( data )
    else
-      if( not data.serialize ) then
+      if( not data.serialize or data.serialize == "table" ) then
          local tab_str, str = { "{" }, nil
          indent_amount = indent_amount + 3
          for k, v in pairs( data ) do
@@ -42,7 +42,9 @@ end
 
 function utils.save( data, file )
    file:write( "return " )
+   data.serialize = "table"
    file:write( serialize( data, 0 ) )
+   data.serialize = nil
 end
 
 return utils
