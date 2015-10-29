@@ -5,12 +5,20 @@ local M = {}
 M.accept_new = 1000
 
 function M.acceptNewConnections( server )
-   local new_client = server:accept()
-   if( new_client ) then
-      new_client:send( "You have connected!" )
-      local mS = MudSoul:new( new_client )
+   local nc, sm, s
+
+   nc = server:accept()
+   if( nc ) then
+      nc:send( "You have connected!" )
+      sm = StateManager:new( nc )
+      s = StateManager.state:new( { behaviour = "behaviours/new_connection" } )
+      sm:addState( s )
+      s.behaviour.init( s )
    end
    return M.accept_new;
+end
+
+function M.pollProcessPush( server )
 end
 
 return M
