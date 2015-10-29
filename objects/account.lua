@@ -14,7 +14,16 @@ function A:new()
 end
 
 function A:load( account_name )
-   local account = dofile( "accounts/" .. account_name .. ".lua" )
+   local account_path = "accounts/" .. account_name .. ".lua"
+
+   if( not LFS.attributes( account_path ) ) then
+      return nil
+   end
+
+   local account = dofile( account_path )
+   if( type( account ) ~= "table" ) then
+      error( "bad account file, no table returned", 2 )
+   end   
    setmetatable( account, self )
    self.__index = self
 
