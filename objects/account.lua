@@ -13,8 +13,8 @@ function A:new()
    return account
 end
 
-function A:load( account_path )
-   local account = dofile( "accounts/" .. account_path .. ".lua" )
+function A:load( account_name )
+   local account = dofile( "accounts/" .. account_name .. ".lua" )
    setmetatable( account, self )
    self.__index = self
 
