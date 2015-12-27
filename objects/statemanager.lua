@@ -2,9 +2,10 @@
 -- State Manager Module       --
 -- Written by Daniel R. Koris --
 --------------------------------
--- The State Manager is at the heart of our data management.
+-- The State Manager is at the heart of our game data management.
 
 local function SMGarbage( state_manager )
+   print( "hellllloooom, SMGarbage here~" )
    if( state_manager.client ) then
       state_manager.client:close()
    end
@@ -22,10 +23,10 @@ SM.managers_all = {}
 SM.states_by_data = {}
 
 -- make these weak tables so they don't hold up garbage collection
-wm = { __mode = "kv" }
-setmetatable( SM.managers_by_client, wm )
-setmetatable( SM.managers_by_state, wm )
-setmetatable( SM.states_by_data, wm )
+--wm = { __mode = "kv" }
+--setmetatable( SM.managers_by_client, wm )
+--setmetatable( SM.managers_by_state, wm )
+--setmetatable( SM.states_by_data, wm )
 
 ---------------------------------
 -- Local Function validIndex() --
@@ -167,6 +168,9 @@ end
 function SM:removeSelf()
    for i, sm in ipairs( SM.managers_all ) do
       if( sm == self ) then
+         -- if it has a client but no states, the client is not a weak reference, so it needs to be manually removed
+         SM.managers_by_client[sm.client] = nil
+         if( sm.client ) then sm.client:close(); end
          table.remove( SM.managers_all, i )
       end
    end
@@ -196,11 +200,18 @@ function SM:setCurrent( index )
 end
 
 function SM:remState( state )
+   -- it's slower, but use a loop here so we can use table.remove
+   -- this allows us to preserve the integrity of our incrementally numbered index state stack within the manager
    for i, s in ipairs( self.states ) do
       if( s == state ) then
+         SM.states_by_data[state.data] = nil;
+         SM.managers_by_state[state] = nil;
          table.remove( self.states, i )
-         if( #self.states == 0 ) then
+         if( table.getn( self.states ) == 0 ) then
+           print( "statemanager removing itself" )
            self:removeSelf()
+         elseif( self.current > 1 ) then
+            self:setCurrent( self.current - 1 )         
          end
          return true
       end

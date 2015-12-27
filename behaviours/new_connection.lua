@@ -11,15 +11,20 @@ local function interpreter( state, data )
       
    acct = Account:load( input )
    if( not acct ) then
-      state:putToOutbuf( "There is no account with that name, would you like to make one?[(Y)es/(N)o]\n" )
+      state:putToOutbuf( "There is no account with that name, would you like to make one?[Yes/No]\n" )
       input = coroutine.yield()
    else
       state:putToOutbuf( "Cannot load existing accounts yet!" )
    end
+
+   local yesno = input:lower() == "yes"
+
+   state:putToOutbuf( "yesno is " .. tostring( yesno ) )
+   return "dead"
 end
 
 function B.init( state )
-   state:putToOutbuf( "\nHello and welcome to Davengine!\nWhat is your account name?" )
+   state:putToOutbuf( "\nHello and welcome to Davengine!\nWhat is your account name? " )
 end
 
 
