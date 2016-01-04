@@ -43,6 +43,24 @@ function table:getKey( value )
    return nil
 end
 
+function table.contains( table, value )
+   for key, val in pairs( table ) do
+      if( val == value ) then
+         return true
+      end
+   end
+   return false
+end
+
+function table:contains( value )
+   for key, val in pairs( self ) do
+      if( val == value ) then
+         return true
+      end
+   end
+   return false
+end
+
 local function serialize( data, indent_amount )
    if( type( data ) == "string" ) then
       return string.format( "%q", data ) 

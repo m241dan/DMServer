@@ -83,7 +83,7 @@ function DM:AASData( data )
    local position = self.addData( data )
 
    if( not position ) then
-      printf( "DM:AASData cannot set to a nil index." )      
+      print( "DM:AASData cannot set to a nil index." )      
    end
 
    self:setData_byIndex( position )
@@ -129,7 +129,7 @@ end
 function DM:setData_byIndex( index )
    -- sanity check
    if( type( index ) ~= "number" ) then
-      printf( "DM:setData_byIndex: index values can only be numbers." )
+      print( "DM:setData_byIndex: index values can only be numbers." )
       return
    end
 
@@ -144,7 +144,7 @@ end
 function DM:setData_byData( data )
    local index = self.data:getKey( data )
    if( not index ) then
-      printf( "DM:setData_byData cannot set to data, DM does not contain the specific data you are trying to set to." )
+      print( "DM:setData_byData cannot set to data, DM does not contain the specific data you are trying to set to." )
       return
    end
    self:setData_byIndex( index )
