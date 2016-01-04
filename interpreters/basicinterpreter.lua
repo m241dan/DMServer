@@ -5,4 +5,4 @@ local function interpreter( dm, data )
    goto top
 end
 
-return coroutine.wrap( interpreter )
+return coroutine.create( interpreter )

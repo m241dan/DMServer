@@ -154,15 +154,20 @@ end
 -- Data Utility Methods --
 --------------------------
 
--- check to see if DM contains this data
-function DM:contains( data )
-   for _, d in pairs( self.data ) do
-      if( d == data ) then
-         return true
+function DM:setupInterp( data, i_path )
+   local interp
+   if( not i_path ) then
+      if( not data.interpreter ) then
+         print( "DM:setupInterp failed because there was no interpreter passed and the data has no interpreter path accompanying it." )
+         return false
       end
+      interp = dofile( data.interpreter )
+   else
+      interp = dofile( i_path )
    end
-   return false
+   interp( self, data )
+   self.interpreter[data] = interp
+   return true
 end
--- returns bool
 
 return DM

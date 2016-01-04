@@ -13,3 +13,6 @@
 [submodule "modules/luafilesystem"]
 	path = modules/luafilesystem
 	url = https://github.com/m241dan/luafilesystem.git
+[submodule "modules/droutine"]
+	path = modules/droutine
+	url = https://github.com/m241dan/droutine.git
