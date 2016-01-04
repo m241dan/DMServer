@@ -65,6 +65,12 @@ end
 
 -- Raw Add
 function DM:addData( data )
+   -- a little sanity check
+   if( self:contains( data ) then
+      print( "DM:addData cannot add duplicate data." )
+      return nil
+   end
+
    local position = #self.data+1 -- easy reuse to just put this in a var
 
    self.data[position] = data
@@ -75,6 +81,11 @@ end
 -- Add Data and set as primary index( AAS = add and set )
 function DM:AASData( data )
    local position = self.addData( data )
+
+   if( not position ) then
+      printf( "DM:AASData cannot set to a nil index." )      
+   end
+
    self:setData_byIndex( position )
 end
 -- Returns Index
@@ -88,7 +99,7 @@ end
 -- Raw Removal
 function DM:remData( data )
    local DI = self.data:getKey( data ) 	-- get the data's current index
-
+   local CD = self.data[self.index] 	-- track current data(for later)
    -- remove the data
    self.data[DI] = nil
    -- clear out the "history"
@@ -105,6 +116,8 @@ function DM:remData( data )
          self.index = self.prev[NIP]
          table.remove( self.prev, NIP )
       end
+   else
+      self.current = self.data:getKey( CD )
    end
 end
 
@@ -116,7 +129,7 @@ end
 function DM:setData_byIndex( index )
    -- sanity check
    if( type( index ) ~= "number" ) then
-      printf( "Index values can only be numbers." )
+      printf( "DM:setData_byIndex: index values can only be numbers." )
       return
    end
 
@@ -131,10 +144,25 @@ end
 function DM:setData_byData( data )
    local index = self.data:getKey( data )
    if( not index ) then
-      printf( "Cannot set to data, DM does not contain the specific data you are trying to set to." )
+      printf( "DM:setData_byData cannot set to data, DM does not contain the specific data you are trying to set to." )
       return
    end
    self:setData_byIndex( index )
 end
+
+--------------------------
+-- Data Utility Methods --
+--------------------------
+
+-- check to see if DM contains this data
+function DM:contains( data )
+   for _, d in pairs( self.data ) do
+      if( d == data ) then
+         return true
+      end
+   end
+   return false
+end
+-- returns bool
 
 return DM
