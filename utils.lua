@@ -65,10 +65,11 @@ local function serialize( data, indent_amount )
 end
 
 function utils.save( data, file )
+   local phs = data.serialize -- place holder serialize function
    file:write( "return " )
    data.serialize = "table"
    file:write( serialize( data, 0 ) )
-   data.serialize = nil
+   data.serialize = phs
 end
 
 return utils
