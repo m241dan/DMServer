@@ -19,23 +19,8 @@ function table.getn( table )
    return count
 end
 
-function table:getn()
-   local count = 0
-   for _, _ in pairs( self ) do count = count + 1; end
-   return count
-end
-
-function table.getkey( table, value )
+function table.getKey( table, value )
    for key, val in pairs( table ) do
-      if( value == val ) then
-         return key
-      end
-   end
-   return nil
-end
-
-function table:getKey( value )
-   for key, val in pairs( self ) do
       if( value == val ) then
          return key
       end
@@ -45,15 +30,6 @@ end
 
 function table.contains( table, value )
    for key, val in pairs( table ) do
-      if( val == value ) then
-         return true
-      end
-   end
-   return false
-end
-
-function table:contains( value )
-   for key, val in pairs( self ) do
       if( val == value ) then
          return true
       end
