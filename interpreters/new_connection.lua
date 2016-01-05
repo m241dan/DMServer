@@ -1,5 +1,3 @@
-local B = {}
-
 local function interpreter( state, data )
    local input, acct
    ::top::
@@ -8,7 +6,7 @@ local function interpreter( state, data )
       state:putToOutbuf( "You must enter something." )
       goto top
    end
-      
+
    acct = Account:load( input )
    if( not acct ) then
       state:putToOutbuf( "There is no account with that name, would you like to make one?[Yes/No]\n" )
@@ -23,13 +21,4 @@ local function interpreter( state, data )
    return "dead"
 end
 
-function B.init( state )
-   state:putToOutbuf( "\nHello and welcome to Davengine!\nWhat is your account name? " )
-end
-
-
-function B.getInterp()
-   return coroutine.wrap( interpreter )
-end
-
-return B
+return coroutine.create( interpreter )
