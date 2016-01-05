@@ -34,23 +34,23 @@ setmetatable( DM.by_data, wm )
 
 --constructor
 function DM:new( socket )
-   -- create the data_manager table and set this library as its metatable
-   local data_manager = {}
-   setmetatable( data_manager, self )
+   -- create the dm table and set this library as its metatable
+   local dm = {}
+   setmetatable( dm, self )
 
-   -- setup data_manager 
-   data_manager.socket 	= socket
-   data_manager.data 	= {} 		-- table to hold multiple pieces of data
-   data_manager.index 	= 0		-- current index, what data is in use, if zero the DM has no data
-   data_manager.prev    = { 0 }		-- use a table to act as a linked list to track your way back through the data stack	
+   -- setup dm 
+   dm.socket 	= socket
+   dm.data 	= {} 		-- table to hold multiple pieces of data
+   dm.index 	= 0		-- current index, what data is in use, if zero the DM has no data
+   dm.prev      = { 0 }		-- use a table to act as a linked list to track your way back through the data stack	
 
    -- setup the data indexed tables
-   data_manager.interpreter = {}	-- a table for interpreters
+   dm.interpreter = {}	-- a table for interpreters
 
    -- add manager to internal lists and return
-   DM.all[#DM.all+1] = data_manager
-   if( socket ) then DM.by_socket[socket] = data_manager
-   return data_manager
+   DM.all[#DM.all+1] = dm
+   if( socket ) then DM.by_socket[socket] = dm; end
+   return dm
 end
 
 --cleanup method(technically we let the garbage collector do the deleting)
@@ -66,7 +66,7 @@ end
 -- Raw Add
 function DM:addData( data )
    -- a little sanity check
-   if( self:contains( data ) then
+   if( self.data:contains( data ) ) then
       print( "DM:addData cannot add duplicate data." )
       return nil
    end
@@ -108,7 +108,7 @@ function DM:remData( data )
          table.remove( self.prev, k )
       end
    end
-   if( DI == self.index )
+   if( DI == self.index ) then
       local NIP = #self.prev -- "new index position" the position in the prev that has its new index
       if( #self.prev == 0 ) then
          self:delete()
@@ -154,20 +154,34 @@ end
 -- Data Utility Methods --
 --------------------------
 
+-- a little helper function to setup interpreters, will try to use an interpreter path in the data or you can pass it one
 function DM:setupInterp( data, i_path )
-   local interp
+   local interp, target
    if( not i_path ) then
       if( not data.interpreter ) then
          print( "DM:setupInterp failed because there was no interpreter passed and the data has no interpreter path accompanying it." )
          return false
       end
-      interp = dofile( data.interpreter )
+      target = data.interpreter
    else
-      interp = dofile( i_path )
+      target = i_path
    end
+   interp = DRoutine:new()
+   interp:wrap( target )
    interp( self, data )
    self.interpreter[data] = interp
    return true
+end
+
+-- simplification wrapper
+function DM:interp( ... )
+   self.interpreter[self.data[self.current]]( ... )
+end
+
+function DM.dataDump()
+   print( "          Number of total DMs: " .. DM.all:getn() )
+   print( "  Number of total DMs_by_data: " .. DM.by_data:getn() )
+   print( "Number of Total DMs_by_socket: " .. DM.by_socket:getn() )
 end
 
 return DM

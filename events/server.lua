@@ -3,18 +3,15 @@
 local M = {}
 
 M.accept_new = 1000
-M.ppp_interval = 2000
+M.ppp_interval = 200
 
 function M.acceptNewConnections( server )
-   local nc, sm, s
+   local nc, dm
 
    nc = server:accept()
    if( nc ) then
       nc:send( "You have connected!" )
-      sm = StateManager:new( nc )
-      s = StateManager.state:new( { behaviour = "behaviours/new_connection" } )
-      sm:addState( s )
-      s.behaviour.init( s )
+      dm = DataManager:new( nc )
    end
    return M.accept_new;
 end

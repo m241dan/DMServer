@@ -1,5 +1,5 @@
  -- Load Global Modules
-dofile( "mudlibs.lua" )
+dofile( "libs.lua" )
 
 -- Global Variables
 global_events = {}
@@ -9,16 +9,16 @@ function main()
    print( "Setting up Server!" )
 
    -- setup the server on port 6500
-   mudserver = assert( Server:new( 6500 ), "could not bind mud server" )
+   server = assert( Server:new( 6500 ), "could not bind mud server" )
    -- "start" simply means it will accept new connections when :accept() is called
-   mudserver:start()
+   server:start()
 
    -- setup our event for accepting new connections
-   mudserver.accept_event = Event:new( MudServerEvents.acceptNewConnections, EventQueue.second, { mudserver }, "Accepting new connections event." )
-   EventQueue.insert( mudserver.accept_event )
+   server.accept_event = Event:new( ServerEvents.acceptNewConnections, EventQueue.second, { server }, "Accepting new connections event." )
+   EventQueue.insert( server.accept_event )
 
-   mudserver.poll_process_push = Event:new( MudServerEvents.pollProcessPush, 100, { mudserver }, "Poll. Process. Push." )
-   EventQueue.insert( mudserver.poll_process_push )
+   server.poll_process_push = Event:new( ServerEvents.pollProcessPush, 100, { server }, "Poll. Process. Push." )
+   EventQueue.insert( server.poll_process_push )
 
    -- setup the polling for new input, processing new input, pushing new input
 --   local poll_process_push = EventQueue.event:new( MudServerEvents.pollProcessPush, EventQueue.default_tick(), nil, "
