@@ -3,7 +3,7 @@
 ---------------------------------------------------------------------------
 -- The Data Manger Library acts as a container for all the data. Its job --
 -- is to hold live data and its two controlling entities: the socket,    --
--- which can be a TCP/UDP(functionlity coming later for UDP) socket or   --
+-- which can be a TCP/UDP(functionality coming later for UDP) socket or  --
 -- a rig of pretedermined functions, and the interpreter. These two      --
 -- entities send messages back and fourth with each other. This          --
 -- communication changes the shape and content of the data and can       --
@@ -35,7 +35,7 @@ setmetatable( DM.by_data, wm )
 --constructor
 function DM:new( socket )
    -- create the dm table and set this library as its metatable
-	   local dm = {}
+   local dm = {}
    setmetatable( dm, self )
 
    -- setup dm 
